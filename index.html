@@ -5,19 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vengeance Ledger</title>
     
-    <!-- FAVICON LOCAL -->
+    <!-- FAVICON PACKAGE -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <meta name="theme-color" content="#000000">
     
     <!-- PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#ffffff">
-    
-    <!-- Manifest Inline -->
-    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlZlbmdlYW5jZSBMZWRnZXIiLAogICJzaG9ydF9uYW1lIjogIlZlbmdlYW5jZSIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImFuZHJvaWQtY2hyb21lLTE5MngxOTIucG5nIiwKICAgICAgInNpemVzIjogIjE5MngxOTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9LAogICAgewogICAgICAic3JjIjogImFuZHJvaWQtY2hyb21lLTUxMng1MTIucG5nIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9wbmciCiAgICB9CiAgXSwKICAidGhlbWVfY29sb3IiOiAiI2ZmZmZmZiIsCiAgImJhY2tncm91bmRfY29sb3IvIjogIiMwODA4MDgiLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJzdGFydF91cmwiOiAiLi8iCn0=">
 
     <!-- Frameworks -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -25,175 +21,305 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Orbitron:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@500;700&family=Orbitron:wght@700&display=swap');
 
         :root {
-            --bg-dark: #080808;
-            --bat-red: #ff1a1a;
-            --bat-green: #00ff41;
-            --glass: rgba(20, 20, 20, 0.7);
+            --bg-dark: #050505;
+            --bat-red: #ff0000;
+            --bat-green: #00ff66;
+            --glass: rgba(10, 10, 10, 0.85);
+            --border: rgba(255, 0, 0, 0.15);
         }
 
         body {
             background-color: var(--bg-dark);
-            color: #ffffff;
-            font-family: 'Inter', sans-serif;
+            color: #e5e5e5;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-tap-highlight-color: transparent;
             overflow-x: hidden;
-            background-image: radial-gradient(circle at 50% -20%, rgba(255, 0, 0, 0.15) 0%, transparent 50%);
-            background-attachment: fixed;
+        }
+
+        /* Canvas de Ceniza */
+        #ash-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
         }
 
         .font-ui { font-family: 'Orbitron', sans-serif; }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
 
-        .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px; /* Reducido para que se vea más cuadrado */
+        /* Efecto Neón Rojo */
+        .neon-red {
+            text-shadow: 0 0 5px var(--bat-red), 0 0 10px var(--bat-red);
+        }
+        .neon-border-red {
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+            border: 1px solid var(--bat-red) !important;
         }
 
-        /* LOGO CUADRADO */
+        /* Efecto Neón Verde */
+        .neon-green {
+            text-shadow: 0 0 5px var(--bat-green), 0 0 10px var(--bat-green);
+        }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            z-index: 10;
+            position: relative;
+        }
+
         .header-logo-container {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            border-radius: 4px; /* Forma Cuadrada con esquinas suaves */
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 26, 26, 0.4);
-            box-shadow: 0 0 10px rgba(255, 26, 26, 0.1);
+            border-radius: 8px;
+            background: rgba(255, 0, 0, 0.05);
+            border: 1px solid var(--bat-red);
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
         }
-        
-        .header-logo-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+
+        .hp-bar-bg {
+            height: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .hp-fill {
             height: 100%;
-            transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 0 15px currentColor;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .bat-input-group {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 12px 16px;
         }
 
         .modal-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(8px);
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(15px);
             z-index: 100;
             align-items: center;
             justify-content: center;
+            padding: 20px;
         }
         .modal-overlay.active { display: flex; }
+
+        @keyframes pulse-neon {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .animate-pulse-neon { animation: pulse-neon 2s infinite; }
     </style>
 </head>
-<body class="pb-36">
+<body class="pb-32">
 
-    <header class="w-full px-6 py-8 sticky top-0 z-40 bg-black/40 backdrop-blur-lg">
+    <!-- Capa de Ceniza -->
+    <canvas id="ash-canvas"></canvas>
+
+    <!-- Header -->
+    <header class="w-full px-6 py-6 sticky top-0 z-40 bg-black/80 backdrop-blur-md border-b border-red-900/30">
         <div class="flex justify-between items-center max-w-xl mx-auto">
             <div class="flex items-center gap-4">
-                <!-- CONTENEDOR CUADRADO -->
-                <div class="header-logo-container">
-                    <img src="favicon-32x32.png" 
-                         alt="Logo" 
-                         class="header-logo-img" 
-                         onerror="this.parentElement.innerHTML='<i class=\'ph ph-shield-chevron text-bat-red text-2xl\'></i>'">
+                <div class="header-logo-container animate-pulse-neon">
+                    <img src="favicon-32x32.png" alt="Logo" class="w-full h-full object-cover" 
+                         onerror="this.parentElement.innerHTML='<i class=\'ph ph-shield text-bat-red text-xl\'></i>'">
                 </div>
                 <div>
-                    <h1 class="text-xs font-ui font-bold text-bat-red tracking-[0.3em] uppercase">Bat-Core V.6</h1>
-                    <div id="date-display" class="text-[10px] font-mono text-white/40 uppercase">SISTEMA_STANDBY</div>
+                    <h1 class="text-[10px] font-ui font-bold text-bat-red tracking-[0.3em] uppercase neon-red">Bat-Core V.6</h1>
+                    <div id="date-display" class="text-[9px] font-mono text-white/40 uppercase">CONEXIÓN_SEGURA</div>
                 </div>
             </div>
-            <button onclick="linkLocalFile()" class="w-10 h-10 rounded-lg glass-card flex items-center justify-center text-white/30 hover:text-bat-red transition-colors">
+            <button onclick="linkLocalFile()" class="p-2 rounded-xl glass-card text-white/40 hover:text-bat-red transition-all border-red-900/50">
                 <i class="ph ph-intersect text-xl"></i>
             </button>
         </div>
     </header>
 
-    <main class="px-5 max-w-xl mx-auto space-y-8">
-        <!-- Balance -->
-        <section class="glass-card p-8 space-y-6">
-            <div class="flex justify-between items-end">
+    <main class="px-5 max-w-xl mx-auto space-y-6 mt-4 relative z-10">
+        
+        <!-- Dashboard Principal -->
+        <section class="glass-card p-6 space-y-4 neon-border-red">
+            <div class="flex justify-between items-start">
                 <div class="space-y-1">
-                    <span class="text-[10px] font-ui text-white/40 tracking-widest uppercase">Activos Netos</span>
-                    <div class="text-6xl font-extrabold tracking-tighter" id="currentBalance">$0</div>
+                    <span class="text-[10px] font-bold text-white/30 tracking-widest uppercase">Efectivo Total</span>
+                    <div class="text-5xl font-extrabold tracking-tight text-white neon-red" id="currentBalance">$0</div>
                 </div>
                 <div class="text-right">
-                    <span id="health-label" class="text-[10px] font-bold text-bat-green font-ui uppercase">Salud: 100%</span>
+                    <div id="health-label" class="text-[10px] font-bold text-bat-green font-ui bg-bat-green/10 px-2 py-1 rounded-md neon-green">SALUD: 100%</div>
                 </div>
             </div>
 
-            <div class="h-2 bg-white/5 rounded-full overflow-hidden">
-                <div id="hp-fill" class="hp-fill bg-bat-green text-bat-green" style="width: 100%"></div>
+            <div class="space-y-2">
+                <div class="hp-bar-bg">
+                    <div id="hp-fill" class="hp-fill bg-bat-green" style="width: 100%; box-shadow: 0 0 15px var(--bat-green);"></div>
+                </div>
+                <div class="flex justify-between text-[9px] font-mono text-white/20 uppercase tracking-tighter">
+                    <span>Integridad del Sistema</span>
+                    <span id="system-msg" class="text-bat-green">SISTEMA_ESTABLE</span>
+                </div>
             </div>
         </section>
 
         <!-- Configuración -->
         <section class="grid grid-cols-2 gap-4">
-            <div class="glass-card p-5 border-l-2 border-l-bat-green/30">
-                <label class="text-[9px] font-ui text-white/30 block mb-2 tracking-widest uppercase">Ingreso</label>
-                <input type="number" id="monthlyIncomeInput" class="bg-transparent text-2xl font-bold w-full outline-none" placeholder="0" onchange="updateGoals()">
+            <div class="bat-input-group flex flex-col gap-1 border-white/5">
+                <div class="flex items-center gap-2 text-white/40">
+                    <i class="ph ph-currency-dollar text-xs"></i>
+                    <label class="text-[9px] font-bold uppercase tracking-wider">Ingreso</label>
+                </div>
+                <input type="number" id="monthlyIncomeInput" class="bg-transparent text-xl font-bold w-full outline-none text-white focus:text-bat-red transition-colors" placeholder="0" onchange="updateGoals()">
             </div>
-            <div class="glass-card p-5 border-l-2 border-l-white/10">
-                <label class="text-[9px] font-ui text-white/30 block mb-2 tracking-widest uppercase">Ahorro %</label>
-                <input type="number" id="savingsPercentInput" class="bg-transparent text-2xl font-bold w-full outline-none" value="20" onchange="updateGoals()">
+            <div class="bat-input-group flex flex-col gap-1 border-white/5">
+                <div class="flex items-center gap-2 text-white/40">
+                    <i class="ph ph-shield-check text-xs"></i>
+                    <label class="text-[9px] font-bold uppercase tracking-wider">Ahorro %</label>
+                </div>
+                <input type="number" id="savingsPercentInput" class="bg-transparent text-xl font-bold w-full outline-none text-white focus:text-bat-red transition-colors" value="20" onchange="updateGoals()">
             </div>
         </section>
 
-        <!-- Registro -->
+        <!-- Historial -->
         <section class="space-y-4">
-            <h2 class="font-ui text-[11px] tracking-[0.2em] text-white/40 uppercase px-2 flex justify-between">
-                <span>Registro de Log</span>
-                <span id="syncStatus" class="hidden text-bat-green">Sincronizado</span>
-            </h2>
-            <div id="transactionList" class="space-y-3"></div>
+            <div class="flex justify-between items-center px-2">
+                <h2 class="font-ui text-[11px] tracking-[0.2em] text-white/40 uppercase">Log de Transacciones</h2>
+                <span id="syncStatus" class="hidden text-[9px] font-bold text-bat-green flex items-center gap-1 uppercase">
+                    <span class="w-1 h-1 bg-bat-green rounded-full animate-pulse"></span> Sincronizado
+                </span>
+            </div>
+            <div id="transactionList" class="space-y-3 pb-4"></div>
         </section>
     </main>
 
-    <!-- Nav Inferior -->
-    <nav class="fixed bottom-8 left-1/2 -translate-x-1/2 w-[90%] max-w-md z-50">
-        <div class="glass-card p-4 flex justify-around items-center border-white/10 shadow-2xl">
-            <button onclick="openModal('income')" class="flex flex-col items-center gap-1">
-                <div class="w-12 h-12 rounded-lg bg-bat-green/10 flex items-center justify-center text-bat-green border border-bat-green/20">
+    <!-- Navegación -->
+    <nav class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-md z-50">
+        <div class="glass-card p-3 flex justify-between items-center px-6 border-red-900/50">
+            <button onclick="openModal('income')" class="flex flex-col items-center gap-1 group">
+                <div class="w-12 h-12 rounded-xl bg-bat-green/10 flex items-center justify-center text-bat-green border border-bat-green/30 group-active:scale-90 transition-transform">
                     <i class="ph-bold ph-plus text-2xl"></i>
                 </div>
-                <span class="text-[8px] font-ui font-bold opacity-40 uppercase">Ingreso</span>
+                <span class="text-[8px] font-bold text-white/30 uppercase">Entrada</span>
             </button>
-            <button onclick="exportToCSV()" class="w-16 h-16 bg-white text-black rounded-xl flex items-center justify-center -mt-16 shadow-2xl">
-                <i class="ph-bold ph-file-csv text-2xl"></i>
+            <button onclick="exportToCSV()" class="w-16 h-16 bg-white text-black rounded-2xl flex items-center justify-center -mt-12 shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-105 transition-transform active:scale-95">
+                <i class="ph-fill ph-file-csv text-3xl"></i>
             </button>
-            <button onclick="openModal('expense')" class="flex flex-col items-center gap-1">
-                <div class="w-12 h-12 rounded-lg bg-bat-red/10 flex items-center justify-center text-bat-red border border-bat-red/20">
+            <button onclick="openModal('expense')" class="flex flex-col items-center gap-1 group">
+                <div class="w-12 h-12 rounded-xl bg-bat-red/10 flex items-center justify-center text-bat-red border border-bat-red/30 group-active:scale-90 transition-transform">
                     <i class="ph-bold ph-minus text-2xl"></i>
                 </div>
-                <span class="text-[8px] font-ui font-bold opacity-40 uppercase">Gasto</span>
+                <span class="text-[8px] font-bold text-white/30 uppercase">Salida</span>
             </button>
         </div>
     </nav>
 
     <!-- Modal -->
     <div id="transactionModal" class="modal-overlay" onclick="if(event.target === this) closeModal()">
-        <div class="glass-card p-8 w-full max-w-sm border-t-4 border-t-bat-red">
-            <h2 class="text-sm font-ui tracking-[0.4em] text-center uppercase mb-8" id="modalTitle">Nueva Operación</h2>
-            <form onsubmit="handleTransactionSubmit(event)" class="space-y-6">
+        <div class="glass-card p-6 w-full max-w-sm border-t-4 border-t-bat-red neon-border-red">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xs font-ui tracking-[0.3em] uppercase text-bat-red neon-red" id="modalTitle">Nuevo Registro</h2>
+                <button onclick="closeModal()" class="text-white/20 hover:text-bat-red"><i class="ph ph-x text-xl"></i></button>
+            </div>
+            <form onsubmit="handleTransactionSubmit(event)" class="space-y-4">
                 <input type="hidden" id="txType">
-                <input type="number" id="txAmount" class="bg-black/40 p-4 rounded-xl w-full text-4xl font-bold outline-none text-white border border-white/5" step="0.01" required placeholder="0.00">
-                <input type="text" id="txDesc" class="bg-black/40 p-4 rounded-xl w-full outline-none text-sm uppercase border border-white/5" required placeholder="CONCEPTO">
-                <input type="date" id="txDate" class="bg-black/40 p-4 rounded-xl w-full text-xs text-white/50 outline-none border border-white/5">
-                <div class="flex gap-3">
-                    <button type="button" onclick="closeModal()" class="flex-1 py-4 text-[10px] font-ui opacity-40 uppercase tracking-widest">Abortar</button>
-                    <button type="submit" class="flex-1 bg-white text-black font-ui font-bold py-4 rounded-xl text-xs uppercase">Ejecutar</button>
+                <div class="space-y-2">
+                    <label class="text-[9px] uppercase font-bold text-white/30 ml-2">Monto USD</label>
+                    <div class="bat-input-group flex items-center gap-3">
+                        <span class="text-2xl font-bold text-white/20">$</span>
+                        <input type="number" id="txAmount" class="bg-transparent text-3xl font-bold w-full outline-none text-white focus:text-bat-red" step="0.01" required placeholder="0.00">
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[9px] uppercase font-bold text-white/30 ml-2">Concepto</label>
+                    <div class="bat-input-group">
+                        <input type="text" id="txDesc" class="bg-transparent text-sm font-bold w-full outline-none text-white uppercase placeholder:text-white/10" required placeholder="Ej: Equipo Táctico">
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[9px] uppercase font-bold text-white/30 ml-2">Fecha</label>
+                    <div class="bat-input-group">
+                        <input type="date" id="txDate" class="bg-transparent text-sm font-mono w-full outline-none text-white/60">
+                    </div>
+                </div>
+                <div class="pt-4">
+                    <button type="submit" class="w-full bg-bat-red text-white font-ui font-bold py-4 rounded-xl text-[10px] uppercase tracking-widest active:scale-95 transition-transform shadow-[0_0_20px_rgba(255,0,0,0.4)]">
+                        Confirmar Acción
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
     <script src="app.js"></script>
+    <script>
+        // Lógica de Reloj
+        setInterval(() => {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('es-ES', { hour12: false });
+            const el = document.getElementById('date-display');
+            if(el) el.innerText = `SYS_ONLINE | ${timeStr}`;
+        }, 1000);
+
+        // Efecto de Ceniza (Ash Particles)
+        const canvas = document.getElementById('ash-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function initAsh() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            for (let i = 0; i < 60; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: Math.random() * 1.5 + 0.5,
+                    size: Math.random() * 2,
+                    opacity: Math.random() * 0.5
+                });
+            }
+        }
+
+        function drawAsh() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(200, 200, 200, 0.5)';
+            particles.forEach(p => {
+                ctx.globalAlpha = p.opacity;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.y > canvas.height) {
+                    p.y = -10;
+                    p.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(drawAsh);
+        }
+
+        window.addEventListener('resize', initAsh);
+        initAsh();
+        drawAsh();
+    </script>
 </body>
 </html>
