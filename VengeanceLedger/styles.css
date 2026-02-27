@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Oswald:wght@500;700&display=swap');
+
+:root {
+    --bg-dark: #050505;
+    --bg-panel: #0a0a0a;
+    --bat-red: #e61919;
+    --bat-red-dim: #5c0a0a;
+    --text-main: #b3b3b3;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Courier Prime', monospace;
+    background-image: 
+        radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.8) 100%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3Y%3Cfilter id='noiseFilter'%3Y%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3Y%3C/filter%3Y%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3Y%3C/svg%3Y");
+    background-attachment: fixed;
+    overflow-x: hidden;
+}
+
+.font-title { 
+    font-family: 'Oswald', sans-serif; 
+    font-weight: 700;
+}
+
+.bat-panel {
+    background-color: var(--bg-panel);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.9);
+}
+
+.bat-panel::before {
+    content: ''; position: absolute; top: -1px; left: -1px; width: 15px; height: 15px;
+    border-top: 2px solid var(--bat-red); border-left: 2px solid var(--bat-red);
+}
+
+.bat-input-terminal {
+    background: #000;
+    border: 1px solid var(--bat-red-dim);
+    color: #fff;
+    padding: 0.8rem;
+    width: 100%;
+    outline: none;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.bat-input-terminal:focus {
+    border-color: var(--bat-red);
+    box-shadow: 0 0 10px rgba(230, 25, 25, 0.2);
+}
+
+.bat-btn-terminal {
+    background: transparent;
+    border: 1px solid var(--bat-red);
+    color: var(--bat-red);
+    padding: 0.5rem 1rem;
+    text-transform: uppercase;
+    font-family: 'Oswald';
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bat-btn-terminal:hover {
+    background: var(--bat-red);
+    color: #000;
+    box-shadow: 0 0 20px var(--bat-red-dim);
+}
+
+.bat-btn-main {
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 1.25rem;
+    font-family: 'Oswald';
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.bat-btn-main:hover {
+    background: rgba(255,255,255,0.05);
+    transform: translateX(5px);
+}
+
+.tx-item {
+    background: rgba(255, 255, 255, 0.02);
+    border-right: 2px solid transparent;
+    transition: 0.2s;
+}
+
+.tx-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+@keyframes scan {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+.animate-scan {
+    animation: scan 3s linear infinite;
+}
+
+.custom-scroll::-webkit-scrollbar { width: 4px; }
+.custom-scroll::-webkit-scrollbar-track { background: #000; }
+.custom-scroll::-webkit-scrollbar-thumb { background: var(--bat-red-dim); }
+.custom-scroll::-webkit-scrollbar-thumb:hover { background: var(--bat-red); }
+
+.modal {
+    display: none;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.95); z-index: 100;
+    justify-content: center; align-items: center;
+    backdrop-filter: blur(10px);
+}
+.modal.active { display: flex; }
