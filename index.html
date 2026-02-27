@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Vengeance Ledger</title>
+    <title>GESTOR FINANCIERO</title>
     
     <!-- FAVICON PACKAGE -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -143,8 +143,8 @@
                          onerror="this.parentElement.innerHTML='<i class=\'ph ph-shield text-bat-red text-xl\'></i>'">
                 </div>
                 <div>
-                    <h1 class="text-[10px] font-ui font-bold text-bat-red tracking-[0.3em] uppercase neon-red">Bat-Core V.6</h1>
-                    <div id="date-display" class="text-[9px] font-mono text-white/40 uppercase">CONEXIÓN_SEGURA</div>
+                    <h1 class="text-[10px] font-ui font-bold text-bat-red tracking-[0.3em] uppercase neon-red">Gestión de Finanzas</h1>
+                    <div id="date-display" class="text-[9px] font-mono text-white/40 uppercase">Sistema Digital</div>
                 </div>
             </div>
             <button onclick="linkLocalFile()" class="p-2 rounded-xl glass-card text-white/40 hover:text-bat-red transition-all border-red-900/50">
@@ -173,7 +173,7 @@
                 </div>
                 <div class="flex justify-between text-[9px] font-mono text-white/20 uppercase tracking-tighter">
                     <span>Integridad del Sistema</span>
-                    <span id="system-msg" class="text-bat-green">SISTEMA_ESTABLE</span>
+                    <span id="system-msg" class="text-bat-green">SISTEMA ESTABLE</span>
                 </div>
             </div>
         </section>
@@ -273,7 +273,7 @@
             const now = new Date();
             const timeStr = now.toLocaleTimeString('es-ES', { hour12: false });
             const el = document.getElementById('date-display');
-            if(el) el.innerText = `SYS_ONLINE | ${timeStr}`;
+            if(el) el.innerText = `ONLINE | ${timeStr}`;
         }, 1000);
 
         // Efecto de Ceniza (Ash Particles)
